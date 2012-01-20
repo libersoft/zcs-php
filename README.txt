@@ -2,6 +2,7 @@ CONTENTS OF THIS FILE
 ---------------------
 
  * About ZimbraPHP
+ * Support
  * Usage and Examples
 
 ABOUT ZIMBRAPHP
@@ -10,6 +11,15 @@ ABOUT ZIMBRAPHP
 ZimbraPHP is a small set of PHP classes to query a Zimbra server via the SOAP API interface.
 
 ZimbraPHP classes are released under the terms of GPLv3, see LICENSE.txt
+
+SUPPORT
+-------
+
+You can file a bug report or file a feature request at:
+
+https://github.com/libersoft/ZimbraPHP/issues
+
+We can provide commercial support and payed features, drop us a line at zimbraphp@libersoft.it
 
 USAGE AND EXAMPLES
 ------------------
