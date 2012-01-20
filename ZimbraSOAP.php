@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Description of ZimbraSOAP
+ * Handles the assembling of the low-level XML SOAP message
  *
  * @author LiberSoft <info@libersoft.it>
+ * @license http://www.gnu.org/licenses/gpl.txt
  */
 class ZimbraSOAP
 {
@@ -81,12 +82,6 @@ class ZimbraSOAP
         return $this->processReply(curl_exec($this->curlHandle));
     }
 
-    /**
-     * Process a SOAP reply from Zimbra.
-     *
-     * @param a raw xml soap message
-     * @return body content as SimpleXMLElement
-     */
     private function processReply($soapMessage)
     {
         if (!$soapMessage) {

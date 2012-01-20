@@ -1,9 +1,10 @@
 <?php
 
 /**
- * Description of ZimbraAdmin
+ * Zimbra SOAP API calls.
  *
  * @author LiberSoft <info@libersoft.it>
+ * @license http://www.gnu.org/licenses/gpl.txt
  */
 class ZimbraAdmin
 {
@@ -195,7 +196,7 @@ class ZimbraAdmin
             }
         }
 
-        // rimuove dal conteggio gli account di sistema
+        // Remove from the count the system users (antispam, etc.)
         $result['mailTotal'] -= count(sfConfig::get('app_account_system_users_regexp')) - 1;
 
         $attrs = $this->getDomain($domain, 'name', array('zimbraDomainMaxAccounts'));
@@ -256,12 +257,6 @@ class ZimbraAdmin
         return new Account($accounts[0]);
     }
 
-    /**
-     * Ritorna tutti gli alias del dominio.
-     *
-     * @param string $domain
-     * @return array i nomi degli alias, strippati dal dominio
-     */
     public function getAliases($domain)
     {
         $results = array();
@@ -421,7 +416,7 @@ class ZimbraAdmin
                 $result[(string) $a['n']] = (string) $a;
             }
 
-            // Solo account, no gruppi
+            // Skip groups
             if (!isset($result['type'])) {
                 $results[] = $result;
             }

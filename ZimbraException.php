@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @author LiberSoft <info@libersoft.it>
+ * @license http://www.gnu.org/licenses/gpl.txt
+ */
+
 class ZimbraException extends Exception
 {
 

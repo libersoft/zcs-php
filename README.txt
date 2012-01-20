@@ -19,7 +19,7 @@ You can file a bug report or file a feature request at:
 
 https://github.com/libersoft/ZimbraPHP/issues
 
-We can provide commercial support and payed features, drop us a line at zimbraphp@libersoft.it
+We can provide commercial support and payed features, drop us a line at info@libersoft.it
 
 USAGE AND EXAMPLES
 ------------------
