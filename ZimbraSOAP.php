@@ -89,7 +89,6 @@ class ZimbraSOAP
         }
 
         $xml = new SimpleXMLElement($soapMessage);
-        $xml->asXML(sfConfig::get('sf_log_dir') . '/lastResponse-'.$this->lastRequestName.'.xml'); // debug
 
         $fault = $xml->children('soap', true)->Body->Fault;
         if ($fault) {
