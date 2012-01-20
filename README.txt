@@ -1,23 +1,23 @@
 CONTENTS OF THIS FILE
 ---------------------
 
- * About ZimbraPHP
+ * About zcs-php
  * Support
  * Usage and Examples
 
-ABOUT ZIMBRAPHP
+ABOUT ZCS-PHP
 ---------------
 
-ZimbraPHP is a small set of PHP classes to query a Zimbra server via the SOAP API interface.
+zcs-php is a small set of PHP classes to query a Zimbra Collaboration Suite server via the SOAP API interface.
 
-ZimbraPHP classes are released under the terms of GPLv3, see LICENSE.txt
+zcs-php classes are released under the terms of GPLv3, see LICENSE.txt
 
 SUPPORT
 -------
 
 You can file a bug report or file a feature request at:
 
-https://github.com/libersoft/ZimbraPHP/issues
+https://github.com/libersoft/zcs-php/issues
 
 We can provide commercial support and payed features, drop us a line at info@libersoft.it
 
