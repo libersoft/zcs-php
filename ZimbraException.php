@@ -17,10 +17,13 @@ class ZimbraException extends Exception
     {
         switch ($code) {
             case 'account.ACCOUNT_EXISTS':
-                return "Questo account o alias esiste già.";
+                return "account already exists";
                 break;
             case 'account.DISTRIBUTION_LIST_EXISTS':
-                return "L'elenco di distribuzione esiste già.";
+                return "distribution list already exists";
+                break;
+            case 'service.PROXY_ERROR':
+                return "error while proxying request to target server";
                 break;
             default:
                 return sprintf("An unexpected error has occurred (%s)", $code);

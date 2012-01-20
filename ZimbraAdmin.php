@@ -25,7 +25,7 @@ class ZimbraAdmin
     public function auth($email, $password)
     {
         $SOAPMessage = $this->zimbraConnect;
-        $xml = $SOAPMessage->request('AuthRequest', null, 'urn:zimbraAdmin', array('name' => $email, 'password' => $password));
+        $xml = $SOAPMessage->request('AuthRequest', array('name' => $email, 'password' => $password));
 
         $this->authToken = $xml->children()->AuthResponse->authToken;
         $this->zimbraConnect->addContextChild('authToken', $this->authToken);
@@ -60,7 +60,7 @@ class ZimbraAdmin
             $attributes['sortAscending'] = $sort[1];
         }
 
-        return $this->zimbraConnect->request('SearchDirectoryRequest', null, 'urn:zimbraAdmin', $attributes, array('query' => $ldapQuery));
+        return $this->zimbraConnect->request('SearchDirectoryRequest', $attributes, array('query' => $ldapQuery));
     }
 
     public function getAccounts(array $attributes, $sort = null, $query = null)
@@ -85,7 +85,7 @@ class ZimbraAdmin
 
     public function deleteAccount($id)
     {
-        $this->zimbraConnect->request('DeleteAccountRequest', null, 'urn:zimbraAdmin', array(), array('id' => $id));
+        $this->zimbraConnect->request('DeleteAccountRequest', array(), array('id' => $id));
 
         return true;
     }
@@ -96,7 +96,7 @@ class ZimbraAdmin
             'id' => $id,
             'newPassword' => $password,
         );
-        $this->zimbraConnect->request('SetPasswordRequest', null, 'urn:zimbraAdmin', array(), $params);
+        $this->zimbraConnect->request('SetPasswordRequest', array(), $params);
     }
 
     private function getQuotaUsage(array $attributes, $targetServer = null)
@@ -105,12 +105,12 @@ class ZimbraAdmin
             $this->zimbraConnect->addContextChild('targetServer', $targetServer);
         }
 
-        return $this->zimbraConnect->request('GetQuotaUsageRequest', null, 'urn:zimbraAdmin', $attributes);
+        return $this->zimbraConnect->request('GetQuotaUsageRequest', $attributes);
     }
 
     private function getAllServers($service = 'mailbox')
     {
-        return $this->zimbraConnect->request('GetAllServersRequest', null, 'urn:zimbraAdmin', array(
+        return $this->zimbraConnect->request('GetAllServersRequest', array(
             'service' => $service
         ));
     }
@@ -133,7 +133,7 @@ class ZimbraAdmin
             )
         );
 
-        $response = $this->zimbraConnect->request('GetServerRequest', null, 'urn:zimbraAdmin', array(), $params);
+        $response = $this->zimbraConnect->request('GetServerRequest', array(), $params);
         $servers = $response->children()->GetServerResponse->children();
         return new Server($servers[0]);
     }
@@ -217,7 +217,7 @@ class ZimbraAdmin
 
         $params['attributes'] = $values;
 
-        $response = $this->zimbraConnect->request('CreateAccountRequest', null, 'urn:zimbraAdmin', array(), $params);
+        $response = $this->zimbraConnect->request('CreateAccountRequest', array(), $params);
         $accounts = $response->children()->CreateAccountResponse->children();
 
         return new Account($accounts[0]);
@@ -232,7 +232,7 @@ class ZimbraAdmin
             )
         );
 
-        $response = $this->zimbraConnect->request('GetAccountRequest', null, 'urn:zimbraAdmin', array(), $params);
+        $response = $this->zimbraConnect->request('GetAccountRequest', array(), $params);
         $accounts = $response->children()->GetAccountResponse->children();
         $account = new Account($accounts[0]);
 
@@ -251,7 +251,7 @@ class ZimbraAdmin
         unset($values['id']);
         $params['attributes'] = $values;
 
-        $response = $this->zimbraConnect->request('ModifyAccountRequest', null, 'urn:zimbraAdmin', array(), $params);
+        $response = $this->zimbraConnect->request('ModifyAccountRequest', array(), $params);
         $accounts = $response->children()->ModifyAccountResponse->children();
 
         return new Account($accounts[0]);
@@ -286,7 +286,7 @@ class ZimbraAdmin
             )
         );
 
-        $response = $this->zimbraConnect->request('GetDomainRequest', null, 'urn:zimbraAdmin', $attributes, $params);
+        $response = $this->zimbraConnect->request('GetDomainRequest', $attributes, $params);
         $domains = $response->children()->GetDomainResponse->children();
 
         return $domains[0]->children();
@@ -299,7 +299,7 @@ class ZimbraAdmin
             'alias' => $alias
         );
 
-        $this->zimbraConnect->request('AddAccountAliasRequest', null, 'urn:zimbraAdmin', array(), $params);
+        $this->zimbraConnect->request('AddAccountAliasRequest', array(), $params);
 
         return true;
     }
@@ -311,7 +311,7 @@ class ZimbraAdmin
             'alias' => $alias
         );
 
-        $this->zimbraConnect->request('RemoveAccountAliasRequest', null, 'urn:zimbraAdmin', array(), $params);
+        $this->zimbraConnect->request('RemoveAccountAliasRequest', array(), $params);
 
         return true;
     }
@@ -338,7 +338,7 @@ class ZimbraAdmin
             )
         );
 
-        $response = $this->zimbraConnect->request('GetDistributionListRequest', null, 'urn:zimbraAdmin', array(), $params);
+        $response = $this->zimbraConnect->request('GetDistributionListRequest', array(), $params);
         $lists = $response->children()->GetDistributionListResponse->children();
 
         return new DistributionList($lists[0]);
@@ -351,7 +351,7 @@ class ZimbraAdmin
         unset($values['id']);
         $params['attributes'] = $values;
 
-        $response = $this->zimbraConnect->request('ModifyDistributionListRequest', null, 'urn:zimbraAdmin', array(), $params);
+        $response = $this->zimbraConnect->request('ModifyDistributionListRequest', array(), $params);
         $lists = $response->children()->ModifyDistributionListResponse->children();
 
         return new DistributionList($lists[0]);
@@ -364,7 +364,7 @@ class ZimbraAdmin
             'dlm' => $member
         );
 
-        $this->zimbraConnect->request('AddDistributionListMemberRequest', null, 'urn:zimbraAdmin', array(), $params);
+        $this->zimbraConnect->request('AddDistributionListMemberRequest', array(), $params);
 
         return true;
     }
@@ -376,7 +376,7 @@ class ZimbraAdmin
             'dlm' => $member
         );
 
-        $this->zimbraConnect->request('RemoveDistributionListMemberRequest', null, 'urn:zimbraAdmin', array(), $params);
+        $this->zimbraConnect->request('RemoveDistributionListMemberRequest', array(), $params);
 
         return true;
     }
@@ -390,7 +390,7 @@ class ZimbraAdmin
 
         $params['attributes'] = $values;
 
-        $response = $this->zimbraConnect->request('CreateDistributionListRequest', null, 'urn:zimbraAdmin', array(), $params);
+        $response = $this->zimbraConnect->request('CreateDistributionListRequest', array(), $params);
         $lists = $response->children()->CreateDistributionListResponse->children();
 
         return new DistributionList($lists[0]);
@@ -398,7 +398,7 @@ class ZimbraAdmin
 
     public function deleteDistributionList($id)
     {
-        $this->zimbraConnect->request('DeleteDistributionListRequest', null, 'urn:zimbraAdmin', array(), array('id' => $id));
+        $this->zimbraConnect->request('DeleteDistributionListRequest', array(), array('id' => $id));
 
         return true;
     }
@@ -410,7 +410,7 @@ class ZimbraAdmin
             'limit'  => $limit,
         );
 
-        $response = $this->zimbraConnect->request('AutoCompleteGalRequest', null, 'urn:zimbraAdmin', $attributes, array('name' => $name));
+        $response = $this->zimbraConnect->request('AutoCompleteGalRequest', $attributes, array('name' => $name));
         foreach ($response->children()->AutoCompleteGalResponse->children() as $cn) {
             foreach ($cn->children()->a as $a) {
                 $result[(string) $a['n']] = (string) $a;
@@ -427,7 +427,7 @@ class ZimbraAdmin
 
     public function noOp()
     {
-        $this->zimbraConnect->request('NoOpRequest', null, 'urn:zimbraAdmin');
+        $this->zimbraConnect->request('NoOpRequest');
     }
 
 }

@@ -26,6 +26,7 @@ class ZimbraSOAP
         curl_setopt($this->curlHandle, CURLOPT_RETURNTRANSFER, TRUE);
         curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($this->curlHandle, CURLOPT_CONNECTTIMEOUT, 30);
 
         $this->message = new SimpleXMLElement('<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"></soap:Envelope>');
         $this->context = $this->message->addChild('Header')->addChild('context', null, 'urn:zimbra');
@@ -46,12 +47,12 @@ class ZimbraSOAP
         }
     }
 
-    public function request($name, $value = null, $ns = null, $attributes = array(), $params = array())
+    public function request($name, $attributes = array(), $params = array())
     {
         $this->lastRequestName = $name;
         unset($this->message->children('soap', true)->Body);
         $body = $this->message->addChild('Body');
-        $newChild = $body->addChild($name, $value, $ns);
+        $newChild = $body->addChild($name, null, 'urn:zimbraAdmin');
 
         foreach ($attributes as $key => $value) {
             $newChild->addAttribute($key, $value);
