@@ -3,9 +3,10 @@
 /**
  * A Zimbra distribution list.
  *
- * @author Matteo Giordano <mg@libersoft.it>
+ * @author LiberSoft <info@libersoft.it>
+ * @license http://www.gnu.org/licenses/gpl.txt
  */
-class DistributionList extends lsZimbraObject
+class ZimbraDistributionList extends lsZimbraObject
 {
 
     private $members = array();

@@ -3,9 +3,10 @@
 /**
  * A Zimbra mail account.
  *
- * @author Matteo Giordano <mg@libersoft.it>
+ * @author LiberSoft <info@libersoft.it>
+ * @license http://www.gnu.org/licenses/gpl.txt
  */
-class Account extends lsZimbraObject
+class ZimbraAccount extends lsZimbraObject
 {
 
     protected $status = array(

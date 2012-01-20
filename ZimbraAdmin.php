@@ -70,7 +70,7 @@ class ZimbraAdmin
         $results = array();
 
         foreach ($accounts->children()->SearchDirectoryResponse->children() as $account) {
-            $results[] = new Account($account);
+            $results[] = new ZimbraAccount($account);
         }
 
         return $results;
@@ -118,7 +118,7 @@ class ZimbraAdmin
     public function getServers()
     {
         foreach ($this->getAllServers()->children()->GetAllServersResponse->children() as $server) {
-            $results[] = new Server($server);
+            $results[] = new ZimbraServer($server);
         }
 
         return $results;
@@ -135,7 +135,7 @@ class ZimbraAdmin
 
         $response = $this->zimbraConnect->request('GetServerRequest', array(), $params);
         $servers = $response->children()->GetServerResponse->children();
-        return new Server($servers[0]);
+        return new ZimbraServer($servers[0]);
     }
 
     public function getQuotas(array $attributes, $sort = null, $targetServer = null)
@@ -220,7 +220,7 @@ class ZimbraAdmin
         $response = $this->zimbraConnect->request('CreateAccountRequest', array(), $params);
         $accounts = $response->children()->CreateAccountResponse->children();
 
-        return new Account($accounts[0]);
+        return new ZimbraAccount($accounts[0]);
     }
 
     public function getAccount($domain, $by, $account)
@@ -234,7 +234,7 @@ class ZimbraAdmin
 
         $response = $this->zimbraConnect->request('GetAccountRequest', array(), $params);
         $accounts = $response->children()->GetAccountResponse->children();
-        $account = new Account($accounts[0]);
+        $account = new ZimbraAccount($accounts[0]);
 
         $aliases = $this->getAliases($domain);
         if (array_key_exists($account->name, $aliases)) {
@@ -254,7 +254,7 @@ class ZimbraAdmin
         $response = $this->zimbraConnect->request('ModifyAccountRequest', array(), $params);
         $accounts = $response->children()->ModifyAccountResponse->children();
 
-        return new Account($accounts[0]);
+        return new ZimbraAccount($accounts[0]);
     }
 
     public function getAliases($domain)
@@ -323,7 +323,7 @@ class ZimbraAdmin
         $response = $this->searchDirectory($domain, 0, 0, 'distributionlists');
 
         foreach ($response->children()->SearchDirectoryResponse->children() as $listData) {
-            $results[] = new DistributionList($listData);
+            $results[] = new ZimbraDistributionList($listData);
         }
 
         return $results;
@@ -341,7 +341,7 @@ class ZimbraAdmin
         $response = $this->zimbraConnect->request('GetDistributionListRequest', array(), $params);
         $lists = $response->children()->GetDistributionListResponse->children();
 
-        return new DistributionList($lists[0]);
+        return new ZimbraDistributionList($lists[0]);
     }
 
     public function modifyDistributionList($values)
@@ -354,7 +354,7 @@ class ZimbraAdmin
         $response = $this->zimbraConnect->request('ModifyDistributionListRequest', array(), $params);
         $lists = $response->children()->ModifyDistributionListResponse->children();
 
-        return new DistributionList($lists[0]);
+        return new ZimbraDistributionList($lists[0]);
     }
 
     public function addDistributionListMember($id, $member)
@@ -393,7 +393,7 @@ class ZimbraAdmin
         $response = $this->zimbraConnect->request('CreateDistributionListRequest', array(), $params);
         $lists = $response->children()->CreateDistributionListResponse->children();
 
-        return new DistributionList($lists[0]);
+        return new ZimbraDistributionList($lists[0]);
     }
 
     public function deleteDistributionList($id)
