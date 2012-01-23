@@ -11,6 +11,15 @@ class ZimbraAdmin
 
     private $authToken;
     private $zimbraConnect;
+    private $hideSystemUsers = true;
+    private $systemUsersRegexp = array(
+        "admin",
+        "postmaster",
+        "ham.*",
+        "spam.*",
+        "virus-quarantine.*",
+        "galsync"
+    );
 
     public function __construct($server, $port = 7071, $authToken = null)
     {
@@ -35,12 +44,12 @@ class ZimbraAdmin
 
     public function searchDirectory($domain, $limit = 10, $offset = 0, $type = 'accounts', $sort = null, $query = null)
     {
-        if (sfConfig::get('app_account_hide_system_users', false) && $type == 'accounts') {
+        if ($this->hideSystemUsers && $type == 'accounts') {
             $ldapQuery = "&amp;(";
             if ($query !== null) {
                 $ldapQuery .= "(name=$query*)";
             }
-            foreach (sfConfig::get('app_account_system_users_regexp') as $account) {
+            foreach ($this->systemUsersRegexp as $account) {
                 $ldapQuery .= "(!(name=$account))";
             }
             $ldapQuery .= ')';
@@ -151,7 +160,7 @@ class ZimbraAdmin
         $quotas = $response->children()->GetQuotaUsageResponse->children();
 
         $systemUsers = array();
-        foreach (sfConfig::get('app_account_system_users_regexp') as $user) {
+        foreach ($this->systemUsersRegexp as $user) {
             $a = explode('.', $user);
             $systemUsers[] = $a[0];
         }
@@ -197,7 +206,7 @@ class ZimbraAdmin
         }
 
         // Remove from the count the system users (antispam, etc.)
-        $result['mailTotal'] -= count(sfConfig::get('app_account_system_users_regexp')) - 1;
+        $result['mailTotal'] -= count($this->systemUsersRegexp) - 1;
 
         $attrs = $this->getDomain($domain, 'name', array('zimbraDomainMaxAccounts'));
         $result['mailLimit'] = (int) $attrs[0];
