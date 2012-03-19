@@ -30,13 +30,7 @@ If something go wrong, ZimbraException is raised, containing an error message.
 Here follows an excerpt of a simple ZimbraAdmin usage:
 
 <?php
-require_once(dirname(__FILE__) . '/model/lsZimbraObject.class.php');
-require_once(dirname(__FILE__) . '/model/ZimbraAccount.class.php');
-require_once(dirname(__FILE__) . '/model/ZimbraDistributionList.class.php');
-require_once(dirname(__FILE__) . '/model/ZimbraServer.class.php');
 require_once "ZimbraAdmin.php";
-require_once "ZimbraSOAP.php";
-require_once "ZimbraException.php";
 
 $zimbraadminemail = 'admin@zimbra.domain.com';
 $zimbraadminpassword = 'adminpassword';

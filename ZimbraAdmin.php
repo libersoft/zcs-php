@@ -6,6 +6,15 @@
  * @author LiberSoft <info@libersoft.it>
  * @license http://www.gnu.org/licenses/gpl.txt
  */
+
+require_once(dirname(__FILE__).'/model/lsZimbraObject.class.php');
+require_once(dirname(__FILE__).'/model/ZimbraAccount.class.php');
+require_once(dirname(__FILE__).'/model/ZimbraDistributionList.class.php');
+require_once(dirname(__FILE__).'/model/ZimbraServer.class.php');
+require_once(dirname(__FILE__).'/model/ZimbraDomain.class.php');
+require_once(dirname(__FILE__).'/ZimbraSOAP.php');
+require_once(dirname(__FILE__).'/ZimbraException.php');
+
 class ZimbraAdmin
 {
 
