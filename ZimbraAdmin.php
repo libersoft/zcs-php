@@ -194,19 +194,30 @@ class ZimbraAdmin
             $response = $this->getQuotaUsage(array('domain' => $domain), (string) $server['id']);
             $result['mailTotal'] += (string) $response->children()->GetQuotaUsageResponse['searchTotal'];
 
-            foreach ($response->children()->GetQuotaUsageResponse->children() as $account) {
-                // La quota di postmaster è quella totale di dominio
-                if ($account['name'] != 'postmaster@' . $domain) {
-                    $result['diskUsage'] += $account['used'];
-                    $result['diskProvisioned'] += $account['limit'];
+            $systemUsers = array();
+            foreach ($this->systemUsersRegexp as $user) {
+                $a = explode('.', $user);
+                $systemUsers[] = $a[0];
+            }
+
+            foreach ($response->children()->GetQuotaUsageResponse->children() as $quota) {
+
+                $b = explode('@', $quota['name']);
+                $c = explode('.', $b[0]);
+                $account = $c[0];
+
+                // Remove the system users (antispam, etc.) from the count
+                if (!in_array($account, $systemUsers)) {
+                    $result['diskUsage'] += $quota['used'];
+                    $result['diskProvisioned'] += $quota['limit'];
+                } elseif ($b[0] = 'postmaster') {
+                    $result['diskLimit'] = (int) $quota['limit'];
+                    $result['mailTotal'] -= 1;
                 } else {
-                    $result['diskLimit'] = (int) $account['limit'];
+                    $result['mailTotal'] -= 1;
                 }
             }
         }
-
-        // Remove from the count the system users (antispam, etc.)
-        $result['mailTotal'] -= count($this->systemUsersRegexp) - 1;
 
         $attrs = $this->getDomain($domain, 'name', array('zimbraDomainMaxAccounts'));
         $result['mailLimit'] = (int) $attrs[0];
