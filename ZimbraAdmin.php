@@ -117,6 +117,20 @@ class ZimbraAdmin
         return $this->zimbraConnect->request('GetQuotaUsageRequest', $attributes);
     }
 
+    private function getAllDomains()
+    {
+        return $this->zimbraConnect->request('GetAllDomainsRequest');
+    }
+
+    public function getDomains()
+    {
+        foreach ($this->getAllDomains()->children()->GetAllDomainsResponse->children() as $domain) {
+            $results[] = new ZimbraDomain ($domain);
+        }
+
+        return $results;
+    }
+
     private function getAllServers($service = 'mailbox')
     {
         return $this->zimbraConnect->request('GetAllServersRequest', array(
