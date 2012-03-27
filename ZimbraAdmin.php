@@ -312,6 +312,19 @@ class ZimbraAdmin
         return $domains[0]->children();
     }
 
+    public function modifyDomain($values)
+    {
+        $params = array();
+        $params['id'] = $values['id'];
+        unset($values['id']);
+        $params['attributes'] = $values;
+
+        $response = $this->zimbraConnect->request('ModifyDomainRequest', array(), $params);
+        $domains = $response->children()->ModifyDomainResponse->children();
+
+        return new ZimbraDomain($domains[0]);
+    }
+
     public function addAccountAlias($id, $alias)
     {
         $params = array(
