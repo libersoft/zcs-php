@@ -7,7 +7,7 @@
  * @author Chris Ramakers <chris.ramakers@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.txt
  */
-namespace Zimbra;
+namespace Zimbra\ZCS;
 
 class Admin
 {
@@ -26,7 +26,7 @@ class Admin
 
     public function __construct($server, $port = 7071, $authToken = null)
     {
-        $this->zimbraConnect = new \Zimbra\SoapClient($server, $port);
+        $this->zimbraConnect = new \Zimbra\ZCS\SoapClient($server, $port);
 
         if ($authToken) {
             $this->authToken = $authToken;
@@ -82,7 +82,7 @@ class Admin
         $results = array();
 
         foreach ($accounts->children()->SearchDirectoryResponse->children() as $account) {
-            $results[] = new \Zimbra\Entity\Account($account);
+            $results[] = new \Zimbra\ZCS\Entity\Account($account);
         }
 
         return $results;
@@ -128,7 +128,7 @@ class Admin
     public function getDomains()
     {
         foreach ($this->getAllDomains()->children()->GetAllDomainsResponse->children() as $domain) {
-            $results[] = new \Zimbra\Entity\Domain ($domain);
+            $results[] = new \Zimbra\ZCS\Entity\Domain ($domain);
         }
 
         return $results;
@@ -144,7 +144,7 @@ class Admin
     public function getServers()
     {
         foreach ($this->getAllServers()->children()->GetAllServersResponse->children() as $server) {
-            $results[] = new \Zimbra\Entity\Server($server);
+            $results[] = new \Zimbra\ZCS\Entity\Server($server);
         }
 
         return $results;
@@ -161,7 +161,7 @@ class Admin
 
         $response = $this->zimbraConnect->request('GetServerRequest', array(), $params);
         $servers = $response->children()->GetServerResponse->children();
-        return new \Zimbra\Entity\Server($servers[0]);
+        return new \Zimbra\ZCS\Entity\Server($servers[0]);
     }
 
     public function getQuotas(array $attributes, $sort = null, $targetServer = null)
@@ -257,7 +257,7 @@ class Admin
         $response = $this->zimbraConnect->request('CreateAccountRequest', array(), $params);
         $accounts = $response->children()->CreateAccountResponse->children();
 
-        return new \Zimbra\Entity\Account($accounts[0]);
+        return new \Zimbra\ZCS\Entity\Account($accounts[0]);
     }
 
     public function getAccount($domain, $by, $account)
@@ -271,7 +271,7 @@ class Admin
 
         $response = $this->zimbraConnect->request('GetAccountRequest', array(), $params);
         $accounts = $response->children()->GetAccountResponse->children();
-        $account = new \Zimbra\Entity\Account($accounts[0]);
+        $account = new \Zimbra\ZCS\Entity\Account($accounts[0]);
 
         $aliases = $this->getAliases($domain);
         if (array_key_exists($account->name, $aliases)) {
@@ -291,7 +291,7 @@ class Admin
         $response = $this->zimbraConnect->request('ModifyAccountRequest', array(), $params);
         $accounts = $response->children()->ModifyAccountResponse->children();
 
-        return new \Zimbra\Entity\Account($accounts[0]);
+        return new \Zimbra\ZCS\Entity\Account($accounts[0]);
     }
 
     public function getAliases($domain)
@@ -339,7 +339,7 @@ class Admin
         $response = $this->zimbraConnect->request('ModifyDomainRequest', array(), $params);
         $domains = $response->children()->ModifyDomainResponse->children();
 
-        return new \Zimbra\Entity\Domain($domains[0]);
+        return new \Zimbra\ZCS\Entity\Domain($domains[0]);
     }
 
     public function addAccountAlias($id, $alias)
@@ -373,7 +373,7 @@ class Admin
         $response = $this->searchDirectory($domain, 0, 0, 'distributionlists');
 
         foreach ($response->children()->SearchDirectoryResponse->children() as $listData) {
-            $results[] = new \Zimbra\Entity\DistributionList($listData);
+            $results[] = new \Zimbra\ZCS\Entity\DistributionList($listData);
         }
 
         return $results;
@@ -391,7 +391,7 @@ class Admin
         $response = $this->zimbraConnect->request('GetDistributionListRequest', array(), $params);
         $lists = $response->children()->GetDistributionListResponse->children();
 
-        return new \Zimbra\Entity\DistributionList($lists[0]);
+        return new \Zimbra\ZCS\Entity\DistributionList($lists[0]);
     }
 
     public function modifyDistributionList($values)
@@ -404,7 +404,7 @@ class Admin
         $response = $this->zimbraConnect->request('ModifyDistributionListRequest', array(), $params);
         $lists = $response->children()->ModifyDistributionListResponse->children();
 
-        return new \Zimbra\Entity\DistributionList($lists[0]);
+        return new \Zimbra\ZCS\Entity\DistributionList($lists[0]);
     }
 
     public function addDistributionListMember($id, $member)
@@ -443,7 +443,7 @@ class Admin
         $response = $this->zimbraConnect->request('CreateDistributionListRequest', array(), $params);
         $lists = $response->children()->CreateDistributionListResponse->children();
 
-        return new \Zimbra\Entity\DistributionList($lists[0]);
+        return new \Zimbra\ZCS\Entity\DistributionList($lists[0]);
     }
 
     public function deleteDistributionList($id)

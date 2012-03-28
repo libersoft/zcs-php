@@ -1,16 +1,16 @@
 <?php
 
 /**
- * A Domain.
+ * A Server.
  *
  * @author LiberSoft <info@libersoft.it>
  * @author Chris Ramakers <chris.ramakers@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.txt
  */
 
-namespace Zimbra\Entity;
+namespace Zimbra\ZCS\Entity;
 
-class Domain extends \Zimbra\Entity
+class Server extends \Zimbra\ZCS\Entity
 {
 
 }

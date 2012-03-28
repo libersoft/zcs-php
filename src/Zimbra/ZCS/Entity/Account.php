@@ -8,9 +8,9 @@
  * @license http://www.gnu.org/licenses/gpl.txt
  */
 
-namespace Zimbra\Entity;
+namespace Zimbra\ZCS\Entity;
 
-class Account extends \Zimbra\Entity
+class Account extends \Zimbra\ZCS\Entity
 {
 
     protected $status = array(

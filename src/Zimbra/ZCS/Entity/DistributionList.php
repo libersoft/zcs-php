@@ -8,9 +8,9 @@
  * @license http://www.gnu.org/licenses/gpl.txt
  */
 
-namespace Zimbra\Entity;
+namespace Zimbra\ZCS\Entity;
 
-class DistributionList extends \Zimbra\Entity
+class DistributionList extends \Zimbra\ZCS\Entity
 {
 
     private $members = array();

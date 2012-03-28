@@ -8,7 +8,7 @@
  * @license http://www.gnu.org/licenses/gpl.txt
  */
 
-namespace Zimbra;
+namespace Zimbra\ZCS;
 
 class Entity
 {

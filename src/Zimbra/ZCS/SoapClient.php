@@ -8,7 +8,7 @@
  * @license http://www.gnu.org/licenses/gpl.txt
  */
 
-namespace Zimbra;
+namespace Zimbra\ZCS;
 
 class SoapClient
 {
@@ -97,7 +97,7 @@ class SoapClient
 
         $fault = $xml->children('soap', true)->Body->Fault;
         if ($fault) {
-            throw new \Zimbra\Exception($fault->Detail->children()->Error->Code);
+            throw new \Zimbra\ZCS\Exception($fault->Detail->children()->Error->Code);
         }
 
         return $xml->children('soap', true)->Body;
