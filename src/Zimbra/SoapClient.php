@@ -32,7 +32,7 @@ class SoapClient
         curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYHOST, FALSE);
         curl_setopt($this->curlHandle, CURLOPT_CONNECTTIMEOUT, 30);
 
-        $this->message = new SimpleXMLElement('<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"></soap:Envelope>');
+        $this->message = new \SimpleXMLElement('<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"></soap:Envelope>');
         $this->context = $this->message->addChild('Header')->addChild('context', null, 'urn:zimbra');
         $this->message->addChild('Body');
     }
