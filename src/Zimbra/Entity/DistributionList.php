@@ -4,9 +4,13 @@
  * A Zimbra distribution list.
  *
  * @author LiberSoft <info@libersoft.it>
+ * @author Chris Ramakers <chris.ramakers@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.txt
  */
-class ZimbraDistributionList extends lsZimbraObject
+
+namespace Zimbra\Entity;
+
+class DistributionList extends \Zimbra\Entity
 {
 
     private $members = array();

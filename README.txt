@@ -24,7 +24,7 @@ We can provide commercial support and payed features, drop us a line at info@lib
 USAGE AND EXAMPLES
 ------------------
 
-The main class to use is ZimbraAdmin. ZimbraSOAP is used to build and send XML SOAP messages.
+The main class to use is ZimbraAdmin. ZimbraSoapClient is used to build and send XML SOAP messages.
 If something go wrong, ZimbraException is raised, containing an error message.
 
 Here follows an excerpt of a simple ZimbraAdmin usage:
@@ -35,7 +35,7 @@ require_once(dirname(__FILE__) . '/model/ZimbraAccount.class.php');
 require_once(dirname(__FILE__) . '/model/ZimbraDistributionList.class.php');
 require_once(dirname(__FILE__) . '/model/ZimbraServer.class.php');
 require_once "ZimbraAdmin.php";
-require_once "ZimbraSOAP.php";
+require_once "ZimbraSoapClientClient.php";
 require_once "ZimbraException.php";
 
 $zimbraadminemail = 'admin@zimbra.domain.com';
