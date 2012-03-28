@@ -9,8 +9,9 @@
 class ZimbraAccount extends lsZimbraObject
 {
 
-    protected $status = array(
+    static $statuses = array(
         'active' => 'Attivo',
+        'closed' => 'Disattivo',
     );
 
     public function setAliases($aliases)
@@ -25,7 +26,12 @@ class ZimbraAccount extends lsZimbraObject
 
     public function getStatus()
     {
-        return $this->status[$this->get('zimbraAccountStatus')];
+        return self::$statuses[$this->get('zimbraAccountStatus')];
+    }
+
+    public static function getStatuses()
+    {
+        return self::$statuses;
     }
 
 }
