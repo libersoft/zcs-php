@@ -27,6 +27,9 @@ class Exception extends \Exception
             case 'service.PROXY_ERROR':
                 return "error while proxying request to target server";
                 break;
+            case 'account.NO_SUCH_DOMAIN':
+                return "no such domain";
+                break;
             default:
                 return sprintf("An unexpected error has occurred (%s)", $code);
         }
