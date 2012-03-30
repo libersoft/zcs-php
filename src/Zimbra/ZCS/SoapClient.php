@@ -4,9 +4,13 @@
  * Handles the assembling of the low-level XML SOAP message
  *
  * @author LiberSoft <info@libersoft.it>
+ * @author Chris Ramakers <chris.ramakers@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.txt
  */
-class ZimbraSOAP
+
+namespace Zimbra\ZCS;
+
+class SoapClient
 {
 
     // The entire XML message
@@ -28,7 +32,7 @@ class ZimbraSOAP
         curl_setopt($this->curlHandle, CURLOPT_SSL_VERIFYHOST, FALSE);
         curl_setopt($this->curlHandle, CURLOPT_CONNECTTIMEOUT, 30);
 
-        $this->message = new SimpleXMLElement('<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"></soap:Envelope>');
+        $this->message = new \SimpleXMLElement('<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"></soap:Envelope>');
         $this->context = $this->message->addChild('Header')->addChild('context', null, 'urn:zimbra');
         $this->message->addChild('Body');
     }
@@ -86,14 +90,14 @@ class ZimbraSOAP
     private function processReply($soapMessage)
     {
         if (!$soapMessage) {
-            throw new Exception(curl_error($this->curlHandle), curl_errno($this->curlHandle));
+            throw new \Exception(curl_error($this->curlHandle), curl_errno($this->curlHandle));
         }
 
-        $xml = new SimpleXMLElement($soapMessage);
+        $xml = new \SimpleXMLElement($soapMessage);
 
         $fault = $xml->children('soap', true)->Body->Fault;
         if ($fault) {
-            throw new ZimbraException($fault->Detail->children()->Error->Code);
+            throw new \Zimbra\ZCS\Exception($fault->Detail->children()->Error->Code);
         }
 
         return $xml->children('soap', true)->Body;

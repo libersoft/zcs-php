@@ -4,9 +4,13 @@
  * A basic Zimbra object.
  *
  * @author LiberSoft <info@libersoft.it>
+ * @author Chris Ramakers <chris.ramakers@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.txt
  */
-class lsZimbraObject
+
+namespace Zimbra\ZCS;
+
+class Entity
 {
 
     private $data = array();

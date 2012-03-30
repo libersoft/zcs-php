@@ -4,9 +4,13 @@
  * A Zimbra mail account.
  *
  * @author LiberSoft <info@libersoft.it>
+ * @author Chris Ramakers <chris.ramakers@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.txt
  */
-class ZimbraAccount extends lsZimbraObject
+
+namespace Zimbra\ZCS\Entity;
+
+class Account extends \Zimbra\ZCS\Entity
 {
 
     static $statuses = array(

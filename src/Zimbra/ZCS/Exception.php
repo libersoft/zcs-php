@@ -2,10 +2,12 @@
 
 /**
  * @author LiberSoft <info@libersoft.it>
+ * @author Chris Ramakers <chris.ramakers@gmail.com>
  * @license http://www.gnu.org/licenses/gpl.txt
  */
+namespace Zimbra\ZCS;
 
-class ZimbraException extends Exception
+class Exception extends \Exception
 {
 
     public function __construct($code)
