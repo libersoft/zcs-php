@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>zcs-php by libersoft</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>zcs-php</h1>
+        <p>A small set of PHP classes to query a Zimbra Collaboration Suite server via the SOAP API interface.</p>
+        <p class="view"><a href="https://github.com/libersoft/zcs-php">View the Project on GitHub <small>libersoft/zcs-php</small></a></p>
+        <ul>
+          <li><a href="https://github.com/libersoft/zcs-php/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/libersoft/zcs-php/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/libersoft/zcs-php">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>CONTENTS OF THIS FILE</h2>
+
+<ul>
+<li>About zcs-php</li>
+<li>Support</li>
+<li>Usage and Examples</li>
+</ul><h2>ABOUT ZCS-PHP</h2>
+
+<p>zcs-php is a small set of PHP classes to query a Zimbra Collaboration Suite server via the SOAP API interface.</p>
+
+<p>zcs-php classes are released under the terms of GPLv3, see LICENSE.txt</p>
+
+<h2>REQUIREMENTS</h2>
+
+<ul>
+<li>PSR-0 compatible autoloader</li>
+<li>PHP 5.3</li>
+</ul><h2>SUPPORT</h2>
+
+<p>You can file a bug report or file a feature request at:</p>
+
+<p><a href="https://github.com/libersoft/zcs-php/issues">https://github.com/libersoft/zcs-php/issues</a></p>
+
+<p>We can provide commercial support and payed features, drop us a line at info@libersoft.it</p>
+
+<h2>USAGE AND EXAMPLES</h2>
+
+<p>The zsc-php library is a <a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md">PSR-0</a> compatible library which means you can use the autoloading powers of PHP out of the box.</p>
+
+<p>All you need is a framework with a PSR-0 compatible autoloader or any other autoloader that is PSR-0 compatible. <a href="https://gist.github.com/221634">The official one for example</a>.</p>
+
+<p>The main class to use is \Zimbra\ZCS\Admin. \Zimbra\ZCS\SoapClient is used to build and send XML SOAP messages. If something goes wrong, a \Zimbra\ZCS\Exception is raised, containing an error message.</p>
+
+<p>Here follows an excerpt of a simple \Zimbra\ZCS\Admin usage:</p>
+
+<pre><code>&lt;?php
+// Making sure the Zimbra library can be found
+require_once 'autoloader.php'; // The PSR-0 autoloader from <a href="https://gist.github.com/221634">https://gist.github.com/221634</a>
+$classLoader = new SplClassLoader('Zimbra', realpath(__DIR__.'/zcs-php/src/')); // Point this to the src folder of the zcs-php repo
+$classLoader-&gt;register();
+
+// Define some constants we're going to use
+define('ZIMBRA_LOGIN', 'foo');
+define('ZIMBRA_PASS',  'bar');
+define('ZIMBRA_SERVER', 'zcs.example.com');
+define('ZIMBRA_PORT', '7071');
+
+// Create a new Admin class and authenticate
+$zimbra = new \Zimbra\ZCS\Admin(ZIMBRA_SERVER, ZIMBRA_PORT);
+$zimbra-&gt;auth(ZIMBRA_LOGIN, ZIMBRA_PASS);
+
+// Get all available accounts from a domain
+$accounts = $zimbra-&gt;getAccounts(array(
+    'domain' =&gt; '<a href="http://www.example.com">www.example.com</a>',
+    'offset' =&gt; 0,
+    'limit'  =&gt; 100
+));
+
+// And output them
+foreach ($accounts as $account){
+    echo $account-&gt;name . '&lt;br/&gt;';
+}
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/libersoft">libersoft</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
