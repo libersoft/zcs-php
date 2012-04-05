@@ -236,8 +236,8 @@ class Admin
             }
         }
 
-        $attrs = $this->getDomain($domain, 'name', array('zimbraDomainMaxAccounts'));
-        $result['mailLimit'] = (int) $attrs[0];
+        $domain = $this->getDomain($domain, 'name', array('zimbraDomainMaxAccounts'));
+        $result['mailLimit'] = (int) $domain->zimbraDomainMaxAccounts;
 
         return $result;
     }
@@ -326,7 +326,7 @@ class Admin
         $response = $this->zimbraConnect->request('GetDomainRequest', $attributes, $params);
         $domains = $response->children()->GetDomainResponse->children();
 
-        return $domains[0]->children();
+        return new \Zimbra\ZCS\Entity\Domain($domains[0]);
     }
 
     public function modifyDomain($values)
