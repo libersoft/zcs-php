@@ -67,8 +67,11 @@ class SoapClient
                 switch ($key) {
                     case 'attributes':
                         foreach ($value as $l => $b) {
-                            $newParam = $newChild->addChild('a', $b);
-                            $newParam->addAttribute('n', $l);
+                            $attributes = (array) $b;   // multiple attributes support
+                            foreach ($attributes as $attribute) {
+                                $newParam = $newChild->addChild('a', $attribute);
+                                $newParam->addAttribute('n', $l);
+                            }
                         }
                         break;
                     default:

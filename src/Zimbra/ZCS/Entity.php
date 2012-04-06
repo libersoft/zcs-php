@@ -23,16 +23,23 @@ class Entity
         foreach ($object->children()->a as $data) {
             $key = (string) $data['n'];
 
-            switch ($data) {
-                case 'FALSE':
-                    $this->data[$key] = false;
-                    break;
-                case 'TRUE':
-                    $this->data[$key] = true;
-                    break;
-                default:
-                    $this->data[$key] = (string) $data;
+            if (isset($this->data[$key])) {     // store multiple attributes in an array
+                $this->data[$key] = (array) $this->data[$key];
+                $this->data[$key][] = self::convert($data);
+            } else {
+                $this->data[$key] = self::convert($data);
             }
+        }
+    }
+
+    private static function convert($data) {
+        switch ($data) {
+            case 'FALSE':
+                return false;
+            case 'TRUE':
+                return true;
+            default:
+                return (string) $data;
         }
     }
 
