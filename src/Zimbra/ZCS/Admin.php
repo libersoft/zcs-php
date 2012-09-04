@@ -14,13 +14,12 @@ class Admin
 
     private $authToken;
     private $zimbraConnect;
-    private $hideSystemUsers = true;
-    private $systemUsersRegexp = array(
+    private $systemUsers = array(
         "admin",
         "postmaster",
-        "ham.*",
-        "spam.*",
-        "virus-quarantine.*",
+        "ham",
+        "spam",
+        "virus-quarantine",
         "galsync"
     );
 
@@ -47,14 +46,16 @@ class Admin
 
     public function searchDirectory($domain, $limit = 10, $offset = 0, $type = 'accounts', $sort = null, $query = null)
     {
-        if ($this->hideSystemUsers && $type == 'accounts') {
+        if ($type == 'accounts') {
             $ldapQuery = "&amp;(";
+
             if ($query !== null) {
                 $ldapQuery .= "(name=$query*)";
             }
-            foreach ($this->systemUsersRegexp as $account) {
-                $ldapQuery .= "(!(name=$account))";
-            }
+
+            $ldapQuery .= '(!(zimbraIsSystemResource=TRUE))';
+            $ldapQuery .= '(!(zimbraIsAdminAccount=TRUE))';
+
             $ldapQuery .= ')';
         } else {
             $ldapQuery = '';
@@ -176,17 +177,11 @@ class Admin
         $response = $this->getQuotaUsage($attributes, $targetServer);
         $quotas = $response->children()->GetQuotaUsageResponse->children();
 
-        $systemUsers = array();
-        foreach ($this->systemUsersRegexp as $user) {
-            $a = explode('.', $user);
-            $systemUsers[] = $a[0];
-        }
-
         foreach ($quotas as $quota) {
             $account = explode('@', $quota['name']);
             $b = explode('.', $account[0]);
 
-            if (!in_array($b[0], $systemUsers)) {
+            if (!in_array($b[0], $this->systemUsers)) {
                 $results[(string) $quota['id']] = array(
                     'name' => (string) $quota['name'],
                     'used' => (string) $quota['used'],
@@ -211,20 +206,13 @@ class Admin
             $response = $this->getQuotaUsage(array('domain' => $domain), (string) $server['id']);
             $result['mailTotal'] += (string) $response->children()->GetQuotaUsageResponse['searchTotal'];
 
-            $systemUsers = array();
-            foreach ($this->systemUsersRegexp as $user) {
-                $a = explode('.', $user);
-                $systemUsers[] = $a[0];
-            }
-
             foreach ($response->children()->GetQuotaUsageResponse->children() as $quota) {
-
                 $b = explode('@', $quota['name']);
                 $c = explode('.', $b[0]);
                 $account = $c[0];
 
                 // Remove the system users (antispam, etc.) from the count
-                if (!in_array($account, $systemUsers)) {
+                if (!in_array($account, $this->systemUsers)) {
                     $result['diskUsage'] += $quota['used'];
                     $result['diskProvisioned'] += $quota['limit'];
                 } elseif ($b[0] = 'postmaster') {
