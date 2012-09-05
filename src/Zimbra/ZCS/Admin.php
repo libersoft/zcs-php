@@ -468,4 +468,19 @@ class Admin
         $this->zimbraConnect->request('NoOpRequest');
     }
 
+    public function getCos($cos, $by = 'id')
+    {
+        $params = array(
+            'cos' => array(
+                '_'  => $cos,
+                'by' => $by,
+            )
+        );
+
+        $response = $this->zimbraConnect->request('GetCosRequest', array(), $params);
+        $coses = $response->children()->GetCosResponse->children();
+
+        return new \Zimbra\ZCS\Entity\Cos($coses[0]);
+    }
+
 }
