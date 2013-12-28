@@ -47,7 +47,7 @@ class Admin
     public function searchDirectory($domain, $limit = 10, $offset = 0, $type = 'accounts', $sort = null, $query = null)
     {
         if ($type == 'accounts') {
-            $ldapQuery = "&amp;(";
+            $ldapQuery = "(&amp;";
 
             if ($query !== null) {
                 $ldapQuery .= "(name=$query*)";
