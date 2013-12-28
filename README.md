@@ -1,9 +1,9 @@
 CONTENTS OF THIS FILE
 ---------------------
 
- * About zcs-php
- * Support
- * Usage and Examples
+ * [About zcs-php](#about-zcs-php)
+ * [Support](#support)
+ * [Usage and Examples](#usage-and-examples)
 
 ABOUT ZCS-PHP
 ---------------
@@ -38,31 +38,32 @@ All you need is a framework with a PSR-0 compatible autoloader or any other auto
 The main class to use is \Zimbra\ZCS\Admin. \Zimbra\ZCS\SoapClient is used to build and send XML SOAP messages. If something goes wrong, a \Zimbra\ZCS\Exception is raised, containing an error message.
 
 Here follows an excerpt of a simple \Zimbra\ZCS\Admin usage:
+```php
+<?php
+// Making sure the Zimbra library can be found
+require_once 'autoloader.php'; // The PSR-0 autoloader from https://gist.github.com/221634
+$classLoader = new SplClassLoader('Zimbra', realpath(__DIR__.'/zcs-php/src/')); // Point this to the src folder of the zcs-php repo
+$classLoader->register();
 
-    <?php
-    // Making sure the Zimbra library can be found
-    require_once 'autoloader.php'; // The PSR-0 autoloader from https://gist.github.com/221634
-    $classLoader = new SplClassLoader('Zimbra', realpath(__DIR__.'/zcs-php/src/')); // Point this to the src folder of the zcs-php repo
-    $classLoader->register();
+// Define some constants we're going to use
+define('ZIMBRA_LOGIN', 'foo');
+define('ZIMBRA_PASS',  'bar');
+define('ZIMBRA_SERVER', 'zcs.example.com');
+define('ZIMBRA_PORT', '7071');
 
-    // Define some constants we're going to use
-    define('ZIMBRA_LOGIN', 'foo');
-    define('ZIMBRA_PASS',  'bar');
-    define('ZIMBRA_SERVER', 'zcs.example.com');
-    define('ZIMBRA_PORT', '7071');
+// Create a new Admin class and authenticate
+$zimbra = new \Zimbra\ZCS\Admin(ZIMBRA_SERVER, ZIMBRA_PORT);
+$zimbra->auth(ZIMBRA_LOGIN, ZIMBRA_PASS);
 
-    // Create a new Admin class and authenticate
-    $zimbra = new \Zimbra\ZCS\Admin(ZIMBRA_SERVER, ZIMBRA_PORT);
-    $zimbra->auth(ZIMBRA_LOGIN, ZIMBRA_PASS);
+// Get all available accounts from a domain
+$accounts = $zimbra->getAccounts(array(
+    'domain' => 'www.example.com',
+    'offset' => 0,
+    'limit'  => 100
+));
 
-    // Get all available accounts from a domain
-    $accounts = $zimbra->getAccounts(array(
-        'domain' => 'www.example.com',
-        'offset' => 0,
-        'limit'  => 100
-    ));
-
-    // And output them
-    foreach ($accounts as $account){
-        echo $account->name . '<br/>';
-    }
+// And output them
+foreach ($accounts as $account){
+    echo $account->name . '<br/>';
+}
+```
