@@ -295,6 +295,21 @@ class Admin
 
         return $results;
     }
+    
+    public function createDomain($values)
+    {
+        $params = array();
+
+        $params['name'] = $values['name'];
+        unset($values['name']);
+
+        $params['attributes'] = $values;
+
+        $response = $this->zimbraConnect->request('CreateDomainRequest', array(), $params);
+        $domain = $response->children()->CreateDomainResponse->children();
+
+        return new \Zimbra\ZCS\Entity\Domain($domain[0]);
+    }
 
     public function getDomain($domain, $by = 'name', $attrs = array())
     {
