@@ -44,6 +44,11 @@ class Admin
         return (string) $this->authToken;
     }
 
+    protected function getZimbraConnect()
+    {
+        return $this->zimbraConnect;
+    }
+
     public function searchDirectory($domain, $limit = 10, $offset = 0, $type = 'accounts', $sort = null, $query = null)
     {
         if ($type == 'accounts') {
